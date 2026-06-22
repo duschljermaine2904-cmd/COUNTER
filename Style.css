@@ -1,0 +1,184 @@
+/* Globale Einstellungen für die gesamte Seite */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: black;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive; /* Einmal global für alle Texte */
+
+    /* Zentriert alle Text-Elemente standardmäßig untereinander */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden; /* Verhindert unschöne Scrollbalken */
+}
+
+html {
+    /* dynamische Viewport-Höhe -> berücksichtigt mobile Adressleisten (iOS/Android) */
+    height: 100dvh;
+    height: 100vh; /* Fallback für ältere Browser */
+}
+
+body {
+    height: 100dvh;
+    height: 100vh; /* Fallback für ältere Browser */
+    min-height: -webkit-fill-available; /* zusätzlicher iOS-Fallback */
+
+    /* Notch / Safe-Area auf modernen Smartphones berücksichtigen */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+
+    /* Mobile-typische Touch-Artefakte verhindern */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* verhindert Doppel-Tap-Zoom */
+    overscroll-behavior: none;  /* verhindert "Bounce"-Scroll auf iOS/Android */
+}
+
+/* Verhindert Layout-Probleme */
+*, *:before, *:after {
+    box-sizing: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* --- BUTTONS (Hintergrundflächen) --- */
+.up, .down {
+    position: fixed;  /* robuster als absolute, unabhängig vom Elternelement */
+    top: 0;
+    width: 50%;       /* Jeder Button nimmt exakt die Hälfte der Bildschirmbreite */
+    height: 100%;     /* Volle Bildschirmhöhe */
+    height: 100dvh;
+    border: none;
+    cursor: pointer;
+    z-index: 1;       /* Liegt ganz unten im Hintergrund */
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* kein blauer/grauer Tap-Flash auf Mobile */
+    -webkit-touch-callout: none;              /* kein Kontextmenü bei Long-Press */
+    user-select: none;                        /* kein versehentliches Markieren */
+    touch-action: manipulation;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Linker Button (Grün) */
+.up {
+    left: 0;          /* Startet ganz links */
+    background-color: green;
+}
+
+/* Hover nur auf Geräten mit echtem Maus-Zeiger anzeigen (Mobile ignoriert das) */
+@media (hover: hover) and (pointer: fine) {
+    .up:hover {
+        background-color: #005000;
+    }
+
+    .down:hover {
+        background-color: #990000;
+    }
+}
+
+/* Rechter Button (Rot) */
+.down {
+    right: 0;         /* robuster als left: 50%, kein Rundungsfehler möglich */
+    background-color: red;
+}
+
+/* Klickeffekt für beide Hälften (Maus + Touch) */
+.up:active, .down:active {
+    transform: scale(0.99); /* Drückt die getippte Seite minimal zusammen */
+}
+
+
+/* --- TEXT CONTAINER (Schweben über den Buttons) --- */
+.textcontainer, .container, .numbcont, .uhrcont, .letzte-cont {
+    position: relative;
+    z-index: 10;          /* Liegt sicher ÜBER den klickbaren Farbflächen */
+    pointer-events: none; /* Klicks gehen durch den Text hindurch auf die Buttons */
+    text-align: center;
+    user-select: none;
+    max-width: 90vw; /* verhindert Überlauf auf sehr schmalen Screens */
+}
+
+/* Abstände und Feinschliff für die Textelemente */
+.textcontainer {
+    margin-bottom: 20px;
+}
+
+.title {
+    color: white;
+    font-size: clamp(0.9em, 4vw, 1.2em); /* skaliert zwischen Handy und Tablet/Desktop */
+}
+
+.numbcont {
+    margin-bottom: 20px;
+}
+
+.number {
+    color: white;
+    font-size: clamp(2.2em, 12vw, 3em); /* bleibt auf kleinen Screens lesbar, ohne zu sprengen */
+}
+
+.uhrcont {
+    color: white;
+    font-size: clamp(0.6em, 2.8vw, 0.8em);
+    margin-bottom: 15px;
+}
+
+.letzte-cont {
+    display: flex;
+    flex-wrap: wrap;       /* bricht auf sehr schmalen Screens sauber um statt zu überlaufen */
+    justify-content: center;
+    gap: 10px;
+    color: white;
+    font-size: clamp(0.55em, 2.4vw, 0.7em);
+}
+
+.letzte-wert {
+    color: #4ade80; /* Hellgrün für den Zeitstempel */
+}
+
+/* Den leeren Hilfscontainer verstecken wir, falls er nicht gebraucht wird */
+.container {
+    display: none;
+}
+
+/* --- Tablet / größere Screens: etwas mehr Luft, da viel freie Fläche --- */
+@media (min-width: 600px) {
+    .textcontainer {
+        margin-bottom: 32px;
+    }
+
+    .numbcont {
+        margin-bottom: 32px;
+    }
+
+    .uhrcont {
+        margin-bottom: 22px;
+    }
+}
+
+/* --- Querformat auf Handys: Inhalte sind sonst zu eng gestapelt --- */
+@media (max-height: 420px) and (orientation: landscape) {
+    .textcontainer {
+        margin-bottom: 8px;
+    }
+
+    .numbcont {
+        margin-bottom: 8px;
+    }
+
+    .uhrcont {
+        margin-bottom: 6px;
+    }
+
+    .number {
+        font-size: clamp(1.6em, 8vw, 2.4em);
+    }
+}

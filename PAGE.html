@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heute</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button onclick="Countup()" class="up"></button>
+    <button onclick="Countdown()" class="down"></button>
+
+    <div class="textcontainer">
+        <div class="title">Heute</div>
+    </div>
+
+    <div class="numbcont">
+        <div id="number" class="number">1</div>   
+    </div>
+    <div class="uhrcont">
+        <div id="uhr"></div>
+    </div>
+
+    <div class="letzte-cont">
+        <span class="letzte-label">Letzte:</span>
+        <span id="letzte-zeit" class="letzte-wert">–</span>
+    </div>
+
+    <script src="Counter.js"></script>
+</body>
+</html>
